@@ -1,0 +1,113 @@
+#!/usr/bin/env perl
+
+#  Copyright (C) 2011 DeNA Co.,Ltd.
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#  Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+## Note: This is a sample script and is not complete. Modify the script based on your environment.
+
+use strict;
+use warnings FATAL => 'all';
+
+use Getopt::Long;
+use LWP::UserAgent;
+use URI::Escape;
+
+my (
+  $command,          $ssh_user,        $orig_slave_host, $orig_slave_ip,
+  $orig_slave_port, $new_slave_host
+);
+GetOptions(
+  'command=s'          => \$command,
+  'ssh_user=s'         => \$ssh_user,
+  'orig_slave_host=s' => \$orig_slave_host,
+  'orig_slave_ip=s'   => \$orig_slave_ip,
+  'orig_slave_port=i' => \$orig_slave_port,
+);
+
+exit &main();
+
+sub main {
+  if ( $command eq "stop" || $command eq "stopssh" ) {
+
+    # $orig_slave_host, $orig_slave_ip, $orig_slave_port are passed.
+    # If you manage slave ip address at global catalog database,
+    # invalidate orig_slave_ip here.
+    my $exit_code = 1;
+    eval {
+        my $ua=LWP::UserAgent->new;
+        $ua->timeout(5);
+        my $url='http://tools.dba/mysql_manager.php';
+        my $request_hash= [
+            "orig_slave_host"=>$orig_slave_host,
+            "orig_slave_ip"=>$orig_slave_ip,
+            "orig_slave_port"=>$orig_slave_port,
+        ];
+        my $remote_reponse=$ua->post($url,$request_hash);
+        warn "It's Inner slave_ip_fail_over4dp:stop section\n";
+        
+        if($remote_reponse eq 'OK'){
+            $exit_code=0;
+            exit $exit_code;
+        }else{
+            #remote response is not OK
+            warn "The response from remote server $url is not OK:$remote_reponse\n";
+            $exit_code=1;
+            exit $exit_code;
+        }
+      # updating global catalog, etc
+      $exit_code = 0;
+    };
+    if ($@) {
+      warn "Got Error: $@\n";
+      exit $exit_code;
+    }
+    exit $exit_code;
+  }
+  elsif ( $command eq "start" ) {
+
+    # all arguments are passed.
+    # If you manage slave ip address at global catalog database,
+    # activate new_slave_ip here.
+    # You can also grant write access (create user, set read_only=0, etc) here.
+    my $exit_code = 1;
+    eval {
+      $exit_code = 0;
+    };
+    if ($@) {
+      warn $@;
+
+      # If you want to continue failover, exit 10.
+      exit $exit_code;
+    }
+    exit $exit_code;
+  }
+  elsif ( $command eq "status" ) {
+
+    # do nothing
+    exit 0;
+  }
+  else {
+    &usage();
+    exit 1;
+  }
+}
+
+sub usage {
+  print
+"Usage: slave_ip_failover4dp --command=start|stop|stopssh|status --orig_slave_host=host --orig_slave_ip=ip --orig_slave_port=port \n";
+}
+
