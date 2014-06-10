@@ -64,7 +64,7 @@ masterha_node_online - Switching MySQL server to online from offline
 
 # For node online failover
 
-masterha_node_online --global_conf=/etc/masterha_default.cnf --conf=/usr/local/masterha/conf/app1.cnf --online_node_host=host1 --online_node_port
+masterha_node_online --global_conf=/etc/masterha_default.cnf --conf=/usr/local/masterha/conf/app1.cnf --new_node_host=host1 --new_node_port
 
 
 

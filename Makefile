@@ -1,7 +1,7 @@
 # This Makefile is for the mha4mysql::manager extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.72 (Revision: 67200) from the contents of
+# 6.64 (Revision: 66400) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -19,7 +19,7 @@
 #     LICENSE => q[gpl]
 #     NAME => q[mha4mysql::manager]
 #     NO_META => q[1]
-#     PREREQ_PM => { DBI=>q[0], Time::HiRes=>q[0], Parallel::ForkManager=>q[0], MHA::NodeConst=>q[0], Config::Tiny=>q[0], Log::Dispatch=>q[0], DBD::mysql=>q[0], ExtUtils::MakeMaker=>q[6.42] }
+#     PREREQ_PM => { Parallel::ForkManager=>q[0], ExtUtils::MakeMaker=>q[6.42], MHA::NodeConst=>q[0], Time::HiRes=>q[0], DBD::mysql=>q[0], Log::Dispatch=>q[0], Config::Tiny=>q[0], DBI=>q[0] }
 #     TEST_REQUIRES => {  }
 #     VERSION => q[0.52]
 #     VERSION_FROM => q[lib/MHA/ManagerConst.pm]
@@ -37,19 +37,19 @@
 AR = ar
 CC = gcc
 CCCDLFLAGS = -fPIC
-CCDLFLAGS = -Wl,--enable-new-dtags
+CCDLFLAGS = -Wl,--enable-new-dtags -Wl,-rpath,/usr/lib64/perl5/CORE
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = gcc
-LDDLFLAGS = -shared -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -Wl,-z,relro 
+LDDLFLAGS = -shared -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -Wl,-z,relro 
 LDFLAGS =  -fstack-protector
 LIBC = 
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 3.11.9-200.fc19.x86_64
+OSVERS = 3.10.9-200.fc19.x86_64
 RANLIB = :
 SITELIBEXP = /usr/local/share/perl5
 SITEARCHEXP = /usr/local/lib64/perl5
@@ -144,8 +144,8 @@ PERM_RW = 644
 PERM_RWX = 755
 
 MAKEMAKER   = /usr/share/perl5/vendor_perl/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.72
-MM_REVISION = 67200
+MM_VERSION  = 6.64
+MM_REVISION = 66400
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -222,48 +222,48 @@ TO_INST_PM = lib/MHA/AppGroupMonitor.pm \
 	lib/MHA/SlaveFailover.pm \
 	lib/MHA/SlaveRotate.pm
 
-PM_TO_BLIB = lib/MHA/Config.pm \
-	blib/lib/MHA/Config.pm \
-	lib/MHA/HealthCheckOnce.pm \
-	blib/lib/MHA/HealthCheckOnce.pm \
-	lib/MHA/ManagerConst.pm \
-	blib/lib/MHA/ManagerConst.pm \
-	lib/MHA/ManagerAdminWrapper.pm \
-	blib/lib/MHA/ManagerAdminWrapper.pm \
-	lib/MHA/ManagerUtil.pm \
+PM_TO_BLIB = lib/MHA/ManagerUtil.pm \
 	blib/lib/MHA/ManagerUtil.pm \
-	lib/MHA/MasterFailover.pm \
-	blib/lib/MHA/MasterFailover.pm \
-	lib/MHA/MasterMonitor.pm \
-	blib/lib/MHA/MasterMonitor.pm \
-	lib/MHA/SSHCheck.pm \
-	blib/lib/MHA/SSHCheck.pm \
-	lib/MHA/MasterRotate.pm \
-	blib/lib/MHA/MasterRotate.pm \
-	lib/MHA/DBHelper.pm \
-	blib/lib/MHA/DBHelper.pm \
-	lib/MHA/Server.pm \
-	blib/lib/MHA/Server.pm \
-	lib/MHA/SlaveFailover.pm \
-	blib/lib/MHA/SlaveFailover.pm \
 	lib/MHA/HealthCheck.pm \
 	blib/lib/MHA/HealthCheck.pm \
+	lib/MHA/HealthCheckOnce.pm \
+	blib/lib/MHA/HealthCheckOnce.pm \
+	lib/MHA/MasterFailover.pm \
+	blib/lib/MHA/MasterFailover.pm \
+	lib/MHA/SlaveFailover.pm \
+	blib/lib/MHA/SlaveFailover.pm \
+	lib/MHA/ManagerAdminWrapper.pm \
+	blib/lib/MHA/ManagerAdminWrapper.pm \
+	lib/MHA/Server.pm \
+	blib/lib/MHA/Server.pm \
+	lib/MHA/DBHelper.pm \
+	blib/lib/MHA/DBHelper.pm \
+	lib/MHA/Config.pm \
+	blib/lib/MHA/Config.pm \
+	lib/MHA/ManagerConst.pm \
+	blib/lib/MHA/ManagerConst.pm \
+	lib/MHA/ServerManager.pm \
+	blib/lib/MHA/ServerManager.pm \
 	lib/MHA/FileStatus.pm \
 	blib/lib/MHA/FileStatus.pm \
+	lib/MHA/NodeOnline.pm \
+	blib/lib/MHA/NodeOnline.pm \
+	lib/MHA/ManagerAdmin.pm \
+	blib/lib/MHA/ManagerAdmin.pm \
 	lib/MHA/SlaveRotate.pm \
 	blib/lib/MHA/SlaveRotate.pm \
 	lib/MHA/AppGroupMonitor.pm \
 	blib/lib/MHA/AppGroupMonitor.pm \
-	lib/MHA/NodeOnline.pm \
-	blib/lib/MHA/NodeOnline.pm \
-	lib/MHA/ServerManager.pm \
-	blib/lib/MHA/ServerManager.pm \
-	lib/MHA/ManagerAdmin.pm \
-	blib/lib/MHA/ManagerAdmin.pm
+	lib/MHA/MasterMonitor.pm \
+	blib/lib/MHA/MasterMonitor.pm \
+	lib/MHA/MasterRotate.pm \
+	blib/lib/MHA/MasterRotate.pm \
+	lib/MHA/SSHCheck.pm \
+	blib/lib/MHA/SSHCheck.pm
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.72
+MM_Unix_VERSION = 6.64
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -481,34 +481,34 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
-	bin/masterha_check_ssh \
 	bin/masterha_stop \
-	bin/masterha_node_online \
 	bin/masterha_conf_host \
-	bin/masterha_secondary_check \
-	bin/masterha_check_repl \
-	bin/masterha_manager \
-	bin/masterha_master_switch \
-	bin/masterha_check_status \
-	bin/masterha_wrapper \
 	bin/masterha_manager_app \
+	bin/masterha_check_repl \
 	bin/masterha_slave_switch \
+	bin/masterha_node_online \
+	bin/masterha_check_status \
 	bin/masterha_master_monitor \
+	bin/masterha_check_ssh \
+	bin/masterha_master_switch \
+	bin/masterha_wrapper \
+	bin/masterha_secondary_check \
+	bin/masterha_manager \
 	lib/MHA/SlaveFailover.pm
 	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
-	  bin/masterha_check_ssh $(INST_MAN1DIR)/masterha_check_ssh.$(MAN1EXT) \
 	  bin/masterha_stop $(INST_MAN1DIR)/masterha_stop.$(MAN1EXT) \
-	  bin/masterha_node_online $(INST_MAN1DIR)/masterha_node_online.$(MAN1EXT) \
 	  bin/masterha_conf_host $(INST_MAN1DIR)/masterha_conf_host.$(MAN1EXT) \
-	  bin/masterha_secondary_check $(INST_MAN1DIR)/masterha_secondary_check.$(MAN1EXT) \
-	  bin/masterha_check_repl $(INST_MAN1DIR)/masterha_check_repl.$(MAN1EXT) \
-	  bin/masterha_manager $(INST_MAN1DIR)/masterha_manager.$(MAN1EXT) \
-	  bin/masterha_master_switch $(INST_MAN1DIR)/masterha_master_switch.$(MAN1EXT) \
-	  bin/masterha_check_status $(INST_MAN1DIR)/masterha_check_status.$(MAN1EXT) \
-	  bin/masterha_wrapper $(INST_MAN1DIR)/masterha_wrapper.$(MAN1EXT) \
 	  bin/masterha_manager_app $(INST_MAN1DIR)/masterha_manager_app.$(MAN1EXT) \
+	  bin/masterha_check_repl $(INST_MAN1DIR)/masterha_check_repl.$(MAN1EXT) \
 	  bin/masterha_slave_switch $(INST_MAN1DIR)/masterha_slave_switch.$(MAN1EXT) \
-	  bin/masterha_master_monitor $(INST_MAN1DIR)/masterha_master_monitor.$(MAN1EXT) 
+	  bin/masterha_node_online $(INST_MAN1DIR)/masterha_node_online.$(MAN1EXT) \
+	  bin/masterha_check_status $(INST_MAN1DIR)/masterha_check_status.$(MAN1EXT) \
+	  bin/masterha_master_monitor $(INST_MAN1DIR)/masterha_master_monitor.$(MAN1EXT) \
+	  bin/masterha_check_ssh $(INST_MAN1DIR)/masterha_check_ssh.$(MAN1EXT) \
+	  bin/masterha_master_switch $(INST_MAN1DIR)/masterha_master_switch.$(MAN1EXT) \
+	  bin/masterha_wrapper $(INST_MAN1DIR)/masterha_wrapper.$(MAN1EXT) \
+	  bin/masterha_secondary_check $(INST_MAN1DIR)/masterha_secondary_check.$(MAN1EXT) \
+	  bin/masterha_manager $(INST_MAN1DIR)/masterha_manager.$(MAN1EXT) 
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
 	  lib/MHA/SlaveFailover.pm $(INST_MAN3DIR)/MHA::SlaveFailover.$(MAN3EXT) 
 
@@ -522,24 +522,18 @@ manifypods : pure_all  \
 
 EXE_FILES = bin/masterha_check_repl bin/masterha_check_ssh bin/masterha_check_status bin/masterha_conf_host bin/masterha_manager bin/masterha_manager_app bin/masterha_master_monitor bin/masterha_master_switch bin/masterha_node_online bin/masterha_secondary_check bin/masterha_slave_switch bin/masterha_stop bin/masterha_wrapper
 
-pure_all :: $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_node_online $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_secondary_check $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_master_monitor $(INST_SCRIPT)/masterha_manager $(INST_SCRIPT)/masterha_master_switch $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_manager_app
+pure_all :: $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_manager_app $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_node_online $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_master_monitor $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_master_switch $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_secondary_check $(INST_SCRIPT)/masterha_manager
 	$(NOECHO) $(NOOP)
 
 realclean ::
 	$(RM_F) \
-	  $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_stop \
-	  $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_node_online \
-	  $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_secondary_check \
-	  $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_master_monitor \
-	  $(INST_SCRIPT)/masterha_manager $(INST_SCRIPT)/masterha_master_switch \
-	  $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_wrapper \
-	  $(INST_SCRIPT)/masterha_manager_app 
-
-$(INST_SCRIPT)/masterha_check_ssh : bin/masterha_check_ssh $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_check_ssh
-	$(CP) bin/masterha_check_ssh $(INST_SCRIPT)/masterha_check_ssh
-	$(FIXIN) $(INST_SCRIPT)/masterha_check_ssh
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_check_ssh
+	  $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_conf_host \
+	  $(INST_SCRIPT)/masterha_manager_app $(INST_SCRIPT)/masterha_check_repl \
+	  $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_node_online \
+	  $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_master_monitor \
+	  $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_master_switch \
+	  $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_secondary_check \
+	  $(INST_SCRIPT)/masterha_manager 
 
 $(INST_SCRIPT)/masterha_stop : bin/masterha_stop $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_stop
@@ -547,29 +541,23 @@ $(INST_SCRIPT)/masterha_stop : bin/masterha_stop $(FIRST_MAKEFILE) $(INST_SCRIPT
 	$(FIXIN) $(INST_SCRIPT)/masterha_stop
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_stop
 
-$(INST_SCRIPT)/masterha_check_repl : bin/masterha_check_repl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_check_repl
-	$(CP) bin/masterha_check_repl $(INST_SCRIPT)/masterha_check_repl
-	$(FIXIN) $(INST_SCRIPT)/masterha_check_repl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_check_repl
-
-$(INST_SCRIPT)/masterha_node_online : bin/masterha_node_online $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_node_online
-	$(CP) bin/masterha_node_online $(INST_SCRIPT)/masterha_node_online
-	$(FIXIN) $(INST_SCRIPT)/masterha_node_online
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_node_online
-
 $(INST_SCRIPT)/masterha_conf_host : bin/masterha_conf_host $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_conf_host
 	$(CP) bin/masterha_conf_host $(INST_SCRIPT)/masterha_conf_host
 	$(FIXIN) $(INST_SCRIPT)/masterha_conf_host
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_conf_host
 
-$(INST_SCRIPT)/masterha_secondary_check : bin/masterha_secondary_check $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_secondary_check
-	$(CP) bin/masterha_secondary_check $(INST_SCRIPT)/masterha_secondary_check
-	$(FIXIN) $(INST_SCRIPT)/masterha_secondary_check
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_secondary_check
+$(INST_SCRIPT)/masterha_manager_app : bin/masterha_manager_app $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_manager_app
+	$(CP) bin/masterha_manager_app $(INST_SCRIPT)/masterha_manager_app
+	$(FIXIN) $(INST_SCRIPT)/masterha_manager_app
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_manager_app
+
+$(INST_SCRIPT)/masterha_check_repl : bin/masterha_check_repl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_check_repl
+	$(CP) bin/masterha_check_repl $(INST_SCRIPT)/masterha_check_repl
+	$(FIXIN) $(INST_SCRIPT)/masterha_check_repl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_check_repl
 
 $(INST_SCRIPT)/masterha_slave_switch : bin/masterha_slave_switch $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_slave_switch
@@ -577,23 +565,11 @@ $(INST_SCRIPT)/masterha_slave_switch : bin/masterha_slave_switch $(FIRST_MAKEFIL
 	$(FIXIN) $(INST_SCRIPT)/masterha_slave_switch
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_slave_switch
 
-$(INST_SCRIPT)/masterha_master_monitor : bin/masterha_master_monitor $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_master_monitor
-	$(CP) bin/masterha_master_monitor $(INST_SCRIPT)/masterha_master_monitor
-	$(FIXIN) $(INST_SCRIPT)/masterha_master_monitor
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_master_monitor
-
-$(INST_SCRIPT)/masterha_manager : bin/masterha_manager $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_manager
-	$(CP) bin/masterha_manager $(INST_SCRIPT)/masterha_manager
-	$(FIXIN) $(INST_SCRIPT)/masterha_manager
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_manager
-
-$(INST_SCRIPT)/masterha_master_switch : bin/masterha_master_switch $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_master_switch
-	$(CP) bin/masterha_master_switch $(INST_SCRIPT)/masterha_master_switch
-	$(FIXIN) $(INST_SCRIPT)/masterha_master_switch
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_master_switch
+$(INST_SCRIPT)/masterha_node_online : bin/masterha_node_online $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_node_online
+	$(CP) bin/masterha_node_online $(INST_SCRIPT)/masterha_node_online
+	$(FIXIN) $(INST_SCRIPT)/masterha_node_online
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_node_online
 
 $(INST_SCRIPT)/masterha_check_status : bin/masterha_check_status $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_check_status
@@ -601,17 +577,41 @@ $(INST_SCRIPT)/masterha_check_status : bin/masterha_check_status $(FIRST_MAKEFIL
 	$(FIXIN) $(INST_SCRIPT)/masterha_check_status
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_check_status
 
+$(INST_SCRIPT)/masterha_master_monitor : bin/masterha_master_monitor $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_master_monitor
+	$(CP) bin/masterha_master_monitor $(INST_SCRIPT)/masterha_master_monitor
+	$(FIXIN) $(INST_SCRIPT)/masterha_master_monitor
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_master_monitor
+
+$(INST_SCRIPT)/masterha_check_ssh : bin/masterha_check_ssh $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_check_ssh
+	$(CP) bin/masterha_check_ssh $(INST_SCRIPT)/masterha_check_ssh
+	$(FIXIN) $(INST_SCRIPT)/masterha_check_ssh
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_check_ssh
+
+$(INST_SCRIPT)/masterha_master_switch : bin/masterha_master_switch $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_master_switch
+	$(CP) bin/masterha_master_switch $(INST_SCRIPT)/masterha_master_switch
+	$(FIXIN) $(INST_SCRIPT)/masterha_master_switch
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_master_switch
+
 $(INST_SCRIPT)/masterha_wrapper : bin/masterha_wrapper $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_wrapper
 	$(CP) bin/masterha_wrapper $(INST_SCRIPT)/masterha_wrapper
 	$(FIXIN) $(INST_SCRIPT)/masterha_wrapper
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_wrapper
 
-$(INST_SCRIPT)/masterha_manager_app : bin/masterha_manager_app $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_manager_app
-	$(CP) bin/masterha_manager_app $(INST_SCRIPT)/masterha_manager_app
-	$(FIXIN) $(INST_SCRIPT)/masterha_manager_app
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_manager_app
+$(INST_SCRIPT)/masterha_secondary_check : bin/masterha_secondary_check $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_secondary_check
+	$(CP) bin/masterha_secondary_check $(INST_SCRIPT)/masterha_secondary_check
+	$(FIXIN) $(INST_SCRIPT)/masterha_secondary_check
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_secondary_check
+
+$(INST_SCRIPT)/masterha_manager : bin/masterha_manager $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_manager
+	$(CP) bin/masterha_manager $(INST_SCRIPT)/masterha_manager
+	$(FIXIN) $(INST_SCRIPT)/masterha_manager
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/masterha_manager
 
 
 
@@ -631,25 +631,24 @@ clean_subdirs :
 
 clean :: clean_subdirs
 	- $(RM_F) \
-	  blibdirs.ts *$(LIB_EXT) \
-	  $(INST_ARCHAUTODIR)/extralibs.ld core.[0-9] \
-	  perl MYMETA.yml \
-	  tmon.out perl$(EXE_EXT) \
-	  $(INST_ARCHAUTODIR)/extralibs.all core.[0-9][0-9][0-9][0-9][0-9] \
-	  pm_to_blib core.[0-9][0-9][0-9][0-9] \
-	  $(BASEEXT).def core.[0-9][0-9] \
-	  *$(OBJ_EXT) MYMETA.json \
-	  core.[0-9][0-9][0-9] $(MAKE_APERL_FILE) \
-	  *perl.core $(BASEEXT).exp \
-	  $(BASEEXT).x pm_to_blib.ts \
-	  core.*perl.*.? perlmain.c \
-	  $(BOOTSTRAP) $(BASEEXT).bso \
-	  lib$(BASEEXT).def so_locations \
-	  core perl.exe \
-	  mon.out 
+	  *$(LIB_EXT) core \
+	  core.[0-9] $(INST_ARCHAUTODIR)/extralibs.all \
+	  core.[0-9][0-9] $(BASEEXT).bso \
+	  pm_to_blib.ts MYMETA.json \
+	  core.[0-9][0-9][0-9][0-9] MYMETA.yml \
+	  $(BASEEXT).x $(BOOTSTRAP) \
+	  perl$(EXE_EXT) tmon.out \
+	  *$(OBJ_EXT) pm_to_blib \
+	  $(INST_ARCHAUTODIR)/extralibs.ld blibdirs.ts \
+	  core.[0-9][0-9][0-9][0-9][0-9] *perl.core \
+	  core.*perl.*.? $(MAKE_APERL_FILE) \
+	  $(BASEEXT).def perl \
+	  core.[0-9][0-9][0-9] mon.out \
+	  lib$(BASEEXT).def perlmain.c \
+	  perl.exe so_locations \
+	  $(BASEEXT).exp 
 	- $(RM_RF) \
 	  blib 
-	- $(NOECHO) $(RM_F) $(MAKEFILE_OLD)
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
 
 
@@ -664,7 +663,7 @@ realclean purge ::  clean realclean_subdirs
 	- $(RM_F) \
 	  $(MAKEFILE_OLD) $(FIRST_MAKEFILE) 
 	- $(RM_RF) \
-	  $(DISTVNAME) MYMETA.yml 
+	  MYMETA.yml $(DISTVNAME) 
 
 
 # --- MakeMaker metafile section:
@@ -691,7 +690,7 @@ manifest :
 	$(PERLRUN) "-MExtUtils::Manifest=mkmanifest" -e mkmanifest
 
 veryclean : realclean
-	$(RM_F) *~ */*~ *.orig */*.orig *.bak */*.bak *.old */*.old
+	$(RM_F) *~ */*~ *.orig */*.orig *.bak */*.bak *.old */*.old 
 
 
 
@@ -706,7 +705,6 @@ tardist : $(DISTVNAME).tar$(SUFFIX)
 
 uutardist : $(DISTVNAME).tar$(SUFFIX)
 	uuencode $(DISTVNAME).tar$(SUFFIX) $(DISTVNAME).tar$(SUFFIX) > $(DISTVNAME).tar$(SUFFIX)_uu
-	$(NOECHO) $(ECHO) 'Created $(DISTVNAME).tar$(SUFFIX)_uu'
 
 $(DISTVNAME).tar$(SUFFIX) : distdir
 	$(PREOP)
@@ -714,7 +712,6 @@ $(DISTVNAME).tar$(SUFFIX) : distdir
 	$(TAR) $(TARFLAGS) $(DISTVNAME).tar $(DISTVNAME)
 	$(RM_RF) $(DISTVNAME)
 	$(COMPRESS) $(DISTVNAME).tar
-	$(NOECHO) $(ECHO) 'Created $(DISTVNAME).tar$(SUFFIX)'
 	$(POSTOP)
 
 zipdist : $(DISTVNAME).zip
@@ -724,14 +721,12 @@ $(DISTVNAME).zip : distdir
 	$(PREOP)
 	$(ZIP) $(ZIPFLAGS) $(DISTVNAME).zip $(DISTVNAME)
 	$(RM_RF) $(DISTVNAME)
-	$(NOECHO) $(ECHO) 'Created $(DISTVNAME).zip'
 	$(POSTOP)
 
 shdist : distdir
 	$(PREOP)
 	$(SHAR) $(DISTVNAME) > $(DISTVNAME).shar
 	$(RM_RF) $(DISTVNAME)
-	$(NOECHO) $(ECHO) 'Created $(DISTVNAME).shar'
 	$(POSTOP)
 
 
@@ -776,7 +771,7 @@ distmeta : create_distdir metafile
 
 # --- MakeMaker distsignature section:
 distsignature : create_distdir
-	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{SIGNATURE} => q{Public-key signature (added by MakeMaker)}}) }' \
+	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{SIGNATURE} => q{Public-key signature (added by MakeMaker)}}) } ' \
 	  -e '    or print "Could not add SIGNATURE to MANIFEST: $$$${'\''@'\''}\n"' --
 	$(NOECHO) cd $(DISTVNAME) && $(TOUCH) SIGNATURE
 	cd $(DISTVNAME) && cpansign -s
@@ -978,7 +973,7 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="MHA::NodeConst" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Parallel::ForkManager" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Time::HiRes" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.18" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.16" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
@@ -988,25 +983,25 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/MHA/Config.pm blib/lib/MHA/Config.pm \
-	  lib/MHA/HealthCheckOnce.pm blib/lib/MHA/HealthCheckOnce.pm \
-	  lib/MHA/ManagerConst.pm blib/lib/MHA/ManagerConst.pm \
-	  lib/MHA/ManagerAdminWrapper.pm blib/lib/MHA/ManagerAdminWrapper.pm \
 	  lib/MHA/ManagerUtil.pm blib/lib/MHA/ManagerUtil.pm \
-	  lib/MHA/MasterFailover.pm blib/lib/MHA/MasterFailover.pm \
-	  lib/MHA/MasterMonitor.pm blib/lib/MHA/MasterMonitor.pm \
-	  lib/MHA/SSHCheck.pm blib/lib/MHA/SSHCheck.pm \
-	  lib/MHA/MasterRotate.pm blib/lib/MHA/MasterRotate.pm \
-	  lib/MHA/DBHelper.pm blib/lib/MHA/DBHelper.pm \
-	  lib/MHA/Server.pm blib/lib/MHA/Server.pm \
-	  lib/MHA/SlaveFailover.pm blib/lib/MHA/SlaveFailover.pm \
 	  lib/MHA/HealthCheck.pm blib/lib/MHA/HealthCheck.pm \
+	  lib/MHA/HealthCheckOnce.pm blib/lib/MHA/HealthCheckOnce.pm \
+	  lib/MHA/MasterFailover.pm blib/lib/MHA/MasterFailover.pm \
+	  lib/MHA/SlaveFailover.pm blib/lib/MHA/SlaveFailover.pm \
+	  lib/MHA/ManagerAdminWrapper.pm blib/lib/MHA/ManagerAdminWrapper.pm \
+	  lib/MHA/Server.pm blib/lib/MHA/Server.pm \
+	  lib/MHA/DBHelper.pm blib/lib/MHA/DBHelper.pm \
+	  lib/MHA/Config.pm blib/lib/MHA/Config.pm \
+	  lib/MHA/ManagerConst.pm blib/lib/MHA/ManagerConst.pm \
+	  lib/MHA/ServerManager.pm blib/lib/MHA/ServerManager.pm \
 	  lib/MHA/FileStatus.pm blib/lib/MHA/FileStatus.pm \
+	  lib/MHA/NodeOnline.pm blib/lib/MHA/NodeOnline.pm \
+	  lib/MHA/ManagerAdmin.pm blib/lib/MHA/ManagerAdmin.pm \
 	  lib/MHA/SlaveRotate.pm blib/lib/MHA/SlaveRotate.pm \
 	  lib/MHA/AppGroupMonitor.pm blib/lib/MHA/AppGroupMonitor.pm \
-	  lib/MHA/NodeOnline.pm blib/lib/MHA/NodeOnline.pm \
-	  lib/MHA/ServerManager.pm blib/lib/MHA/ServerManager.pm \
-	  lib/MHA/ManagerAdmin.pm blib/lib/MHA/ManagerAdmin.pm 
+	  lib/MHA/MasterMonitor.pm blib/lib/MHA/MasterMonitor.pm \
+	  lib/MHA/MasterRotate.pm blib/lib/MHA/MasterRotate.pm \
+	  lib/MHA/SSHCheck.pm blib/lib/MHA/SSHCheck.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

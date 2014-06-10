@@ -487,8 +487,6 @@ sub switch_slaves($$$$$$) {
   my $master_log_pos       = shift;
   my $ret = switch_slaves_internal( $new_master, $orig_master_log_file,
     $orig_master_log_pos, $master_log_file, $master_log_pos );
-  $log->info("Unlocking all tables on the orig master:");
-  $orig_master->unlock_tables();
 
   if ($g_orig_master_is_new_slave) {
     $log->info("Starting orig master as a new slave..");

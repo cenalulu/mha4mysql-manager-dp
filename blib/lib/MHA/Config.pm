@@ -30,7 +30,7 @@ use MHA::Server;
 use MHA::NodeUtil;
 
 my @PARAM_ARRAY =
-  qw/ hostname ip port node_label candidate_master no_master ignore_fail skip_init_ssh_check user password repl_user repl_password disable_log_bin master_pid_file handle_raw_binlog ssh_user remote_workdir master_binlog_dir log_level manager_workdir manager_log check_repl_delay check_repl_filter latest_priority multi_tier_slave ping_interval secondary_check_script master_ip_failover_script master_ip_online_change_script shutdown_script report_script init_conf_load_script slave_ip_online_change_script slave_ip_failover_script disabled/;
+  qw/ hostname ip port node_label candidate_master no_master ignore_fail skip_init_ssh_check user password repl_user repl_password disable_log_bin master_pid_file handle_raw_binlog ssh_user remote_workdir master_binlog_dir log_level manager_workdir manager_log check_repl_delay check_repl_filter latest_priority multi_tier_slave ping_interval secondary_check_script master_ip_failover_script master_ip_online_change_script shutdown_script report_script init_conf_load_script slave_ip_online_change_script slave_ip_failover_script node_ip_online_script disabled/;
 my %PARAM;
 for (@PARAM_ARRAY) { $PARAM{$_} = 1; }
 
@@ -122,6 +122,10 @@ sub parse_server {
   $value{slave_ip_failover_script} = $param_arg->{slave_ip_failover_script};
   if ( !defined( $value{slave_ip_failover_script} ) ) {
     $value{slave_ip_failover_script} = $default->{slave_ip_failover_script};
+  }
+  $value{node_ip_online_script} = $param_arg->{node_ip_online_script};
+  if ( !defined( $value{node_ip_online_script} ) ) {
+    $value{node_ip_online_script} = $default->{node_ip_online_script};
   }
   $value{master_ip_failover_script} = $param_arg->{master_ip_failover_script};
   if ( !defined( $value{master_ip_failover_script} ) ) {

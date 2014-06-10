@@ -45,6 +45,7 @@ my $g_orig_master_is_new_slave;
 my $g_running_updates_limit = 1;
 my $g_skip_lock_all_tables;
 my $g_remove_orig_master_conf;
+my $g_disable_orig_master_conf;
 my $g_interactive = 1;
 my $_server_manager;
 my $start_datetime;
@@ -487,8 +488,6 @@ sub switch_slaves($$$$$$) {
   my $master_log_pos       = shift;
   my $ret = switch_slaves_internal( $new_master, $orig_master_log_file,
     $orig_master_log_pos, $master_log_file, $master_log_pos );
-  $log->info("Unlocking all tables on the orig master:");
-  $orig_master->unlock_tables();
 
   if ($g_orig_master_is_new_slave) {
     $log->info("Starting orig master as a new slave..");
@@ -550,6 +549,13 @@ sub do_master_online_switch {
       switch_slaves( $orig_master, $new_master, $orig_master_log_file,
       $orig_master_log_pos, $master_log_file, $master_log_pos );
 
+    if ( $g_disable_orig_master_conf
+      && $error_code == 0 )
+    {
+      MHA::Config::disable_block_and_save( $g_config_file, $orig_master->{id},
+        $log );
+    }
+
     if ( $g_remove_orig_master_conf
       && !$g_orig_master_is_new_slave
       && $error_code == 0 )
@@ -590,6 +596,8 @@ sub main {
     'skip_lock_all_tables'     => \$g_skip_lock_all_tables,
     'remove_dead_master_conf'  => \$g_remove_orig_master_conf,
     'remove_orig_master_conf'  => \$g_remove_orig_master_conf,
+    'disable_orig_master_conf' => \$g_disable_orig_master_conf,
+    'disable_dead_master_conf' => \$g_disable_orig_master_conf,
   );
   if ( $#ARGV >= 0 ) {
     print "Unknown options: ";

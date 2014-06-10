@@ -176,9 +176,9 @@ sub mark_up_node_internal($) {
 "Calling mark-up online script before we mark-up online MHA."
   );
 
-  if ( $node->{node_mark_up_script} ) {
+  if ( $node->{node_ip_online_script} ) {
     my $command =
-"$node->{node_mark_up_script} --orig_slave_host=$node->{hostname} --orig_slave_ip=$node->{ip} --orig_slave_port=$node->{port}";
+"$node->{node_ip_online_script} --new_node_host=$node->{hostname} --new_node_ip=$node->{ip} --new_node_port=$node->{port}";
   $command .= " --command=online";
     $log->info("Executing node mark-up script:");
     $log->info("  $command");
@@ -203,7 +203,7 @@ sub mark_up_node_internal($) {
   }
   else {
     $log->warning(
-"node_mark_up_script is not set. Skipping notify external systems for mark-up."
+"node_ip_online_script is not set. Skipping notify external systems for mark-up."
     );
   }
 
@@ -289,9 +289,9 @@ sub main {
     'workdir=s'                => \$g_workdir,
     'manager_workdir=s'        => \$g_workdir,
     'interactive=i'            => \$g_interactive,
-    'online_node_host=s'       => \$node_host,
-    'online_node_ip=s'         => \$node_ip,
-    'online_node_port=i'       => \$node_port,
+    'new_node_host=s'       => \$node_host,
+    'new_node_ip=s'         => \$node_ip,
+    'new_node_port=i'       => \$node_port,
     'log_output=s'             => \$g_logfile,
   );
   if ( $#ARGV >= 0 ) {
@@ -305,16 +305,16 @@ sub main {
     return 1;
   }
   unless ($node_host) {
-    print "--online_node_host=<online_node_host> must be set.\n";
+    print "--new_node_host=<online_node_host> must be set.\n";
     return 1;
   }
   unless ($node_ip) {
     $node_ip = MHA::NodeUtil::get_ip($node_host);
-    print "--online_node_ip=<online_node_ip> is not set. Using $node_ip.\n";
+    print "--new_node_ip=<online_node_ip> is not set. Using $node_ip.\n";
   }
   unless ($node_port) {
     $node_port= 3306;
-    print "--online_node_port=<online_node_port> is not set. Using $node_port.\n";
+    print "--new_node_port=<online_node_port> is not set. Using $node_port.\n";
   }
 
   $_node_arg{hostname} = $node_host;

@@ -592,7 +592,7 @@ sub reset_slave_on_new_master($) {
   my $self     = shift;
   my $dbhelper = $self->{dbhelper};
   my $log      = $self->{logger};
-  my $ret      = $self->reset_slave_info();
+  my $ret      = $self->reset_slave_master_host();
   if ($ret) {
     my $message = " $self->{hostname}: Resetting slave info failed.";
     $log->error($message);
