@@ -132,85 +132,22 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "MHA::SlaveFailover 3"
-.TH MHA::SlaveFailover 3 "2014-06-12" "perl v5.16.3" "User Contributed Perl Documentation"
+.IX Title "MHA_CONTROL 1"
+.TH MHA_CONTROL 1 "2014-06-12" "perl v5.16.3" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
-.Vb 1
-\&  foreach my $slave (@alive_slaves) {
-\&
-\&    # Master_Host is either hostname or IP address of the current master
-\&    if ( $dead_master\->{hostname} ne $slave\->{Master_Host}
-\&      && $dead_master\->{ip}       ne $slave\->{Master_Host}
-\&      && $dead_master\->{hostname} ne $slave\->{Master_IP}
-\&      && $dead_master\->{ip}       ne $slave\->{Master_IP} )
-\&    {
-\&      $log\->error(
-\&        sprintf(
-\&          "Slave %s does not replicate from dead master %s. Stop failover.",
-\&          $slave\->get_hostinfo(), $dead_master\->get_hostinfo()
-\&        )
-\&      );
-\&      croak;
-\&    }
-\&    $slave\->{ssh_ok} = 2;
-\&    $slave\->{diff_file_readtolatest} =
-\&        "$slave\->{remote_workdir}/relay_from_read_to_latest_"
-\&      . $slave\->{hostname} . "_"
-\&      . $slave\->{port} . "_"
-\&      . $_start_datetime
-\&      . $_saved_file_suffix;
-\&  }
-\&  $_server_manager\->validate_num_alive_servers( $dead_master, 1 );
-.Ve
+.SH "NAME"
+mha_control \- CLI interact with MHA
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+mha_control \f(CW@app\fR show
+mha_control \f(CW@app\fR set_offline master
+mha_control \f(CW@app\fR set_offline \f(CW$node\fR
+mha_control \f(CW@app\fR set_online \f(CW$node\fR
 .PP
-.Vb 10
-\&  my $slave_io_stopper = new Parallel::ForkManager( $#alive_slaves + 1 );
-\&  my $stop_io_failed   = 0;
-\&  $slave_io_stopper\->run_on_start(
-\&    sub {
-\&      my ( $pid, $target ) = @_;
-\&    }
-\&  );
-\&  $slave_io_stopper\->run_on_finish(
-\&    sub {
-\&      my ( $pid, $exit_code, $target ) = @_;
-\&      return if ( $target\->{ignore_fail} );
-\&      $stop_io_failed = 1 if ($exit_code);
-\&    }
-\&  );
-\&
-\&  foreach my $target (@alive_slaves) {
-\&    $slave_io_stopper\->start($target) and next;
-\&    eval {
-\&      my $rc = $target\->stop_io_thread();
-\&      $slave_io_stopper\->finish($rc);
-\&    };
-\&    if ($@) {
-\&      $log\->error($@);
-\&      undef $@;
-\&      $slave_io_stopper\->finish(1);
-\&    }
-\&    $slave_io_stopper\->finish(0);
-\&  }
-.Ve
-.SH "POD ERRORS"
-.IX Header "POD ERRORS"
-Hey! \fBThe above document had some coding errors, which are explained below:\fR
-.IP "Around line 123:" 4
-.IX Item "Around line 123:"
-=pod directives shouldn't be over one line long!  Ignoring all 19 lines of content
-.IP "Around line 196:" 4
-.IX Item "Around line 196:"
-=pod directives shouldn't be over one line long!  Ignoring all 7 lines of content
-.IP "Around line 325:" 4
-.IX Item "Around line 325:"
-=pod directives shouldn't be over one line long!  Ignoring all 44 lines of content
-.IP "Around line 391:" 4
-.IX Item "Around line 391:"
-=pod directives shouldn't be over one line long!  Ignoring all 4 lines of content
-.IP "Around line 439:" 4
-.IX Item "Around line 439:"
-=pod directives shouldn't be over one line long!  Ignoring all 7 lines of content
+See online reference (http://code.google.com/p/mysql\-master\-ha/wiki/masterha_check_repl) for details.
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+See online reference (http://code.google.com/p/mysql\-master\-ha/wiki/masterha_check_repl) for details.

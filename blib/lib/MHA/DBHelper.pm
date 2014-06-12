@@ -421,7 +421,6 @@ sub change_master($$$$$$$) {
       $master_log_file, $master_log_pos
     );
   }
-  print "$query";
   return $self->execute($query);
 }
 

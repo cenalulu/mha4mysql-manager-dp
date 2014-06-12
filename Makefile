@@ -15,7 +15,7 @@
 #     BUILD_REQUIRES => { ExtUtils::MakeMaker=>q[6.42] }
 #     CONFIGURE_REQUIRES => {  }
 #     DISTNAME => q[mha4mysql-manager]
-#     EXE_FILES => [q[bin/masterha_check_repl], q[bin/masterha_check_ssh], q[bin/masterha_check_status], q[bin/masterha_conf_host], q[bin/masterha_manager], q[bin/masterha_manager_app], q[bin/masterha_master_monitor], q[bin/masterha_master_switch], q[bin/masterha_node_online], q[bin/masterha_secondary_check], q[bin/masterha_slave_switch], q[bin/masterha_stop], q[bin/masterha_wrapper]]
+#     EXE_FILES => [q[bin/masterha_check_repl], q[bin/masterha_check_ssh], q[bin/masterha_check_status], q[bin/masterha_conf_host], q[bin/masterha_manager], q[bin/masterha_manager_app], q[bin/masterha_master_monitor], q[bin/masterha_master_switch], q[bin/masterha_node_online], q[bin/masterha_secondary_check], q[bin/masterha_slave_switch], q[bin/masterha_stop], q[bin/masterha_wrapper], q[bin/mha_control]]
 #     LICENSE => q[gpl]
 #     NAME => q[mha4mysql::manager]
 #     NO_META => q[1]
@@ -179,7 +179,8 @@ MAN1PODS = bin/masterha_check_repl \
 	bin/masterha_secondary_check \
 	bin/masterha_slave_switch \
 	bin/masterha_stop \
-	bin/masterha_wrapper
+	bin/masterha_wrapper \
+	bin/mha_control
 MAN3PODS = lib/MHA/SlaveFailover.pm
 
 # Where is the Config information that we are using/depend on
@@ -211,6 +212,7 @@ TO_INST_PM = lib/MHA/AppGroupMonitor.pm \
 	lib/MHA/ManagerAdmin.pm \
 	lib/MHA/ManagerAdminWrapper.pm \
 	lib/MHA/ManagerConst.pm \
+	lib/MHA/ManagerShow.pm \
 	lib/MHA/ManagerUtil.pm \
 	lib/MHA/MasterFailover.pm \
 	lib/MHA/MasterMonitor.pm \
@@ -240,10 +242,12 @@ PM_TO_BLIB = lib/MHA/ManagerUtil.pm \
 	blib/lib/MHA/DBHelper.pm \
 	lib/MHA/Config.pm \
 	blib/lib/MHA/Config.pm \
-	lib/MHA/ManagerConst.pm \
-	blib/lib/MHA/ManagerConst.pm \
 	lib/MHA/ServerManager.pm \
 	blib/lib/MHA/ServerManager.pm \
+	lib/MHA/ManagerShow.pm \
+	blib/lib/MHA/ManagerShow.pm \
+	lib/MHA/ManagerConst.pm \
+	blib/lib/MHA/ManagerConst.pm \
 	lib/MHA/FileStatus.pm \
 	blib/lib/MHA/FileStatus.pm \
 	lib/MHA/NodeOnline.pm \
@@ -481,6 +485,7 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
+	bin/mha_control \
 	bin/masterha_stop \
 	bin/masterha_conf_host \
 	bin/masterha_manager_app \
@@ -496,6 +501,7 @@ manifypods : pure_all  \
 	bin/masterha_manager \
 	lib/MHA/SlaveFailover.pm
 	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
+	  bin/mha_control $(INST_MAN1DIR)/mha_control.$(MAN1EXT) \
 	  bin/masterha_stop $(INST_MAN1DIR)/masterha_stop.$(MAN1EXT) \
 	  bin/masterha_conf_host $(INST_MAN1DIR)/masterha_conf_host.$(MAN1EXT) \
 	  bin/masterha_manager_app $(INST_MAN1DIR)/masterha_manager_app.$(MAN1EXT) \
@@ -520,20 +526,26 @@ manifypods : pure_all  \
 
 # --- MakeMaker installbin section:
 
-EXE_FILES = bin/masterha_check_repl bin/masterha_check_ssh bin/masterha_check_status bin/masterha_conf_host bin/masterha_manager bin/masterha_manager_app bin/masterha_master_monitor bin/masterha_master_switch bin/masterha_node_online bin/masterha_secondary_check bin/masterha_slave_switch bin/masterha_stop bin/masterha_wrapper
+EXE_FILES = bin/masterha_check_repl bin/masterha_check_ssh bin/masterha_check_status bin/masterha_conf_host bin/masterha_manager bin/masterha_manager_app bin/masterha_master_monitor bin/masterha_master_switch bin/masterha_node_online bin/masterha_secondary_check bin/masterha_slave_switch bin/masterha_stop bin/masterha_wrapper bin/mha_control
 
-pure_all :: $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_manager_app $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_node_online $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_master_monitor $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_master_switch $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_secondary_check $(INST_SCRIPT)/masterha_manager
+pure_all :: $(INST_SCRIPT)/mha_control $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_manager_app $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_node_online $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_master_monitor $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_master_switch $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_secondary_check $(INST_SCRIPT)/masterha_manager
 	$(NOECHO) $(NOOP)
 
 realclean ::
 	$(RM_F) \
-	  $(INST_SCRIPT)/masterha_stop $(INST_SCRIPT)/masterha_conf_host \
-	  $(INST_SCRIPT)/masterha_manager_app $(INST_SCRIPT)/masterha_check_repl \
-	  $(INST_SCRIPT)/masterha_slave_switch $(INST_SCRIPT)/masterha_node_online \
-	  $(INST_SCRIPT)/masterha_check_status $(INST_SCRIPT)/masterha_master_monitor \
-	  $(INST_SCRIPT)/masterha_check_ssh $(INST_SCRIPT)/masterha_master_switch \
-	  $(INST_SCRIPT)/masterha_wrapper $(INST_SCRIPT)/masterha_secondary_check \
-	  $(INST_SCRIPT)/masterha_manager 
+	  $(INST_SCRIPT)/mha_control $(INST_SCRIPT)/masterha_stop \
+	  $(INST_SCRIPT)/masterha_conf_host $(INST_SCRIPT)/masterha_manager_app \
+	  $(INST_SCRIPT)/masterha_check_repl $(INST_SCRIPT)/masterha_slave_switch \
+	  $(INST_SCRIPT)/masterha_node_online $(INST_SCRIPT)/masterha_check_status \
+	  $(INST_SCRIPT)/masterha_master_monitor $(INST_SCRIPT)/masterha_check_ssh \
+	  $(INST_SCRIPT)/masterha_master_switch $(INST_SCRIPT)/masterha_wrapper \
+	  $(INST_SCRIPT)/masterha_secondary_check $(INST_SCRIPT)/masterha_manager 
+
+$(INST_SCRIPT)/mha_control : bin/mha_control $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/mha_control
+	$(CP) bin/mha_control $(INST_SCRIPT)/mha_control
+	$(FIXIN) $(INST_SCRIPT)/mha_control
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/mha_control
 
 $(INST_SCRIPT)/masterha_stop : bin/masterha_stop $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/masterha_stop
@@ -992,8 +1004,9 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/MHA/Server.pm blib/lib/MHA/Server.pm \
 	  lib/MHA/DBHelper.pm blib/lib/MHA/DBHelper.pm \
 	  lib/MHA/Config.pm blib/lib/MHA/Config.pm \
-	  lib/MHA/ManagerConst.pm blib/lib/MHA/ManagerConst.pm \
 	  lib/MHA/ServerManager.pm blib/lib/MHA/ServerManager.pm \
+	  lib/MHA/ManagerShow.pm blib/lib/MHA/ManagerShow.pm \
+	  lib/MHA/ManagerConst.pm blib/lib/MHA/ManagerConst.pm \
 	  lib/MHA/FileStatus.pm blib/lib/MHA/FileStatus.pm \
 	  lib/MHA/NodeOnline.pm blib/lib/MHA/NodeOnline.pm \
 	  lib/MHA/ManagerAdmin.pm blib/lib/MHA/ManagerAdmin.pm \

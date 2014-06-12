@@ -56,6 +56,7 @@ my $_status_handler;
 my $_failover_complete_file;
 my $_failover_error_file;
 my $_create_error_file = 0;
+my $g_disable_dead_slave_conf=1;
 
 sub init_config() {
   $log = MHA::ManagerUtil::init_log($g_logfile);
@@ -180,8 +181,17 @@ sub check_settings($) {
   my @dead_servers  = $_server_manager->get_dead_servers();
   my @alive_servers = $_server_manager->get_alive_servers();
   my @alive_slaves  = $_server_manager->get_alive_slaves();
+  my $master        = $_server_manager->validate_current_master();
 
-  #Make sure that dead server is current master only
+  unless ( $_rotate_slave_arg{hostname} ne $master->{hostname}
+            && $_rotate_slave_arg{port} ne $master->{port} ) {
+    $log->error(
+      "The Node: $_rotate_slave_arg{hostname}:$_rotate_slave_arg{port} is current master. Stop mark-off. ");
+    $log->error(
+      "Please use <mha_control set_offline master> instead.");
+    croak;
+  }
+
   $log->info("Dead Servers:");
   $_server_manager->print_dead_servers();
   if ( $#alive_servers <= 1 ) {
@@ -296,7 +306,7 @@ sub do_slave_online_switch {
     $log->info();
     $error_code = force_shutdown_slave($rotate_slave);
 
-    if ( $error_code == 0 ) {
+    if ( $g_disable_dead_slave_conf && $error_code == 0 ) {
       MHA::Config::disable_block_and_save( $g_config_file, $rotate_slave->{id},
         $log );
     }
@@ -368,6 +378,7 @@ sub main {
     'rotate_slave_ip=s'         => \$slave_ip,
     'rotate_slave_port=i'       => \$slave_port,
     'ignore_last_failover'     => \$g_ignore_last_failover,
+    'disable_dead_slave_conf'  => \$g_disable_dead_slave_conf,
     'log_output=s'             => \$g_logfile,
   );
   if ( $#ARGV >= 0 ) {

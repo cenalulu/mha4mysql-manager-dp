@@ -592,16 +592,24 @@ sub reset_slave_on_new_master($) {
   my $self     = shift;
   my $dbhelper = $self->{dbhelper};
   my $log      = $self->{logger};
-  my $ret      = $self->reset_slave_info();
-  if ($ret) {
-    my $message = " $self->{hostname}: Resetting slave info failed.";
-    $log->error($message);
+  $log->debug(" Clearing slave info..");
+  if ( $self->stop_slave() ) {
+    $log->error(" Stopping slave failed!");
     return 1;
   }
-  else {
-    my $message = " $self->{hostname}: Resetting slave info succeeded.";
-    $log->debug($message);
+  $dbhelper->reset_slave_master_host();
+  my %status = $dbhelper->check_slave_status();
+  if ( $status{Status} == 1 ) {
+    $log->debug(
+" SHOW SLAVE STATUS shows new master does not replicate from anywhere. OK."
+    );
     return 0;
+  }
+  else {
+    $log->error(
+" SHOW SLAVE STATUS shows new master replicates from somewhere. Check for details!"
+    );
+    return 1;
   }
 }
 

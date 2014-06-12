@@ -40,8 +40,6 @@ use Sys::Hostname;
 
 my $g_global_config_file = $MHA::ManagerConst::DEFAULT_GLOBAL_CONF;
 my $g_config_file;
-#my $g_new_master_host;
-#my $g_new_master_port = 3306;
 my $g_interactive     = 1;
 my $g_ssh_reachable   = 2;
 my $g_workdir;
@@ -49,8 +47,7 @@ my $g_logfile;
 my $g_last_failover_minute   = 480;
 my $g_wait_on_failover_error = 0;
 my $g_ignore_last_failover;
-#my $g_skip_save_master_binlog;
-my $g_remove_dead_slave_conf=1;
+my $g_disable_dead_slave_conf=1;
 my $_real_ssh_reachable;
 my $_saved_file_suffix;
 my $_start_datetime;
@@ -468,41 +465,7 @@ sub do_slave_failover {
     $log->info();
     $error_code = force_shutdown_slave($dead_slave);
 
-=pod
-    $log->info("* Phase 2: Dead Slave Shutdown Phase completed.\n");
-    $log->info();
-    $log->info("* Phase 3: Slave Recovery Phase..\n");
-    $log->info();
-
-    $log->info("* Phase 3.1: Getting Latest Slaves Phase..\n");
-    $log->info();
-    check_set_latest_slaves();
-
-    $log->info();
-    $log->info("* Phase 3.2: Saving Dead Slave's Binlog Phase..\n");
-    $log->info();
-    save_slave_binlog($dead_slave);
-
-    $log->info();
-    $log->info("* Phase 3.3: Determining New Slave Phase..\n");
-    $log->info();
-    my $latest_base_slave = find_latest_base_slave($dead_slave);
-    $new_slave = select_new_slave( $dead_slave, $latest_base_slave );
-    my ( $slave_log_file, $slave_log_pos ) =
-      recover_slave( $dead_slave, $new_slave, $latest_base_slave );
-    $new_slave->{activated} = 1;
-
-    $log->info("* Phase 3: Slave Recovery Phase completed.\n");
-    $log->info();
-    $log->info("* Phase 4: Slaves Recovery Phase..\n");
-    $log->info();
-    $error_code = recover_slaves(
-      $dead_slave,     $new_slave, $latest_base_slave,
-      $slave_log_file, $slave_log_pos
-    );
-=cut
-
-    if ( $g_remove_dead_slave_conf && $error_code == 0 ) {
+    if ( $g_disable_dead_slave_conf && $error_code == 0 ) {
       MHA::Config::disable_block_and_save( $g_config_file, $dead_slave->{id},
         $log );
     }
@@ -627,7 +590,7 @@ sub main {
     'manager_workdir=s'        => \$g_workdir,
     'log_output=s'             => \$g_logfile,
     'manager_log=s'            => \$g_logfile,
-    'remove_dead_slave_conf'  => \$g_remove_dead_slave_conf,
+    'disable_dead_slave_conf'  => \$g_disable_dead_slave_conf,
   );
   setpgrp( 0, $$ ) unless ($g_interactive);
 
