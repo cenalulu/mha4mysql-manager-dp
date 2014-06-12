@@ -183,8 +183,8 @@ sub check_settings($) {
   my @alive_slaves  = $_server_manager->get_alive_slaves();
   my $master        = $_server_manager->validate_current_master();
 
-  unless ( $_rotate_slave_arg{hostname} ne $master->{hostname}
-            && $_rotate_slave_arg{port} ne $master->{port} ) {
+  if ( $_rotate_slave_arg{hostname} eq $master->{hostname}
+            && $_rotate_slave_arg{port} eq $master->{port} ) {
     $log->error(
       "The Node: $_rotate_slave_arg{hostname}:$_rotate_slave_arg{port} is current master. Stop mark-off. ");
     $log->error(
