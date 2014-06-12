@@ -70,7 +70,7 @@ if ( exists($SUPPORTED_CMD_HASH{$cmd}) ){
             exit $exit_code;
         }
         my $is_manager_alive = MHA::ManagerAdminWrapper::check_status();
-        if( $is_manager_alive eq $MHA::ManagerConst::ST_RUNNING_S ){
+        if( $is_manager_alive eq $MHA::ManagerConst::ST_RUNNING ){
             print "INFO: MHA manager is running, try to stop it before set_offline\n";
             my $stop_code = MHA::ManagerAdminWrapper::stop_manager();
             unless( $stop_code == 0 ){
@@ -81,7 +81,7 @@ if ( exists($SUPPORTED_CMD_HASH{$cmd}) ){
         }elsif( $is_manager_alive eq $MHA::ManagerConst::ST_NOT_RUNNING ){
             print "INFO: MHA manager is not running\n";
         }else{
-            print "Fatal Error: MHA manager is running, but in a unkown state\n";
+            print "Fatal Error: MHA manager is running, but in a unkown state:$is_manager_alive\n";
             $exit_code=3;
             exit $exit_code;
         }
@@ -128,7 +128,7 @@ if ( exists($SUPPORTED_CMD_HASH{$cmd}) ){
     }elsif( $cmd eq 'set_online' ){
 #ensure MHA Manager is not running before node online
         my $is_manager_alive = MHA::ManagerAdminWrapper::check_status();
-        if( $is_manager_alive eq $MHA::ManagerConst::ST_RUNNING_S ){
+        if( $is_manager_alive eq $MHA::ManagerConst::ST_RUNNING){
             print "INFO: MHA manager is running, try to stop it before set_online\n";
             my $stop_code = MHA::ManagerAdminWrapper::stop_manager();
             unless( $stop_code == 0 ){
@@ -139,8 +139,9 @@ if ( exists($SUPPORTED_CMD_HASH{$cmd}) ){
         }elsif( $is_manager_alive eq $MHA::ManagerConst::ST_NOT_RUNNING ){
             print "INFO: MHA manager is not running\n";
         }else{
-            print "Fatal Error: MHA manager is running, but in a unkown state\n";
+            print "Error: MHA manager is running, but in a unkown state:$is_manager_alive\n";
             $exit_code=3;
+            exit $exit_code;
         }
 
 #Starting to set online
