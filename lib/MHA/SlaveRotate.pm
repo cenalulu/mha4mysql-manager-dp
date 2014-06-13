@@ -194,8 +194,8 @@ sub check_settings($) {
 
   $log->info("Dead Servers:");
   $_server_manager->print_dead_servers();
-  if ( $#alive_servers <= 1 ) {
-    $log->error("There is only one alive server. Stop mark-off");
+  if ( $#alive_servers < 1 ) {
+    $log->error("There is no alive server. Stop mark-off");
     croak;
   }
 
