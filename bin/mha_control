@@ -21,7 +21,6 @@ use strict;
 use warnings FATAL => 'all';
 
 use Pod::Usage;
-use Getopt::Long qw(:config pass_through);
 use MHA::ManagerConst;
 use MHA::ManagerAdminWrapper;
 use MHA::ManagerUtil;
@@ -39,14 +38,15 @@ my $version;
 my $exit_code = 1;
 $| = 1;
 
-$app = shift @ARGV;
-GetOptions(
-  'help'    => \$help,
-  'version' => \$version,
-  'conf=s'  => \$app_conf_file,
-);
-unless ( defined($app) ){
+my $app_str = shift @ARGV;
+unless ( defined($app_str) ){
     print "ERROR: Please provide app name\n";
+    exit $exit_code;
+}
+if ( $app_str =~ /^@(.*)$/ ){
+    $app = $1;
+}else{
+    print "ERROR: Incorrect app name format: <$app_str>\n";
     exit $exit_code;
 }
 
@@ -54,6 +54,10 @@ unless ($app_conf_file){
     $app_conf_file = $conf_default_dir.$app.'.cnf';
 }
 print "INFO: Reading configure file <$app_conf_file>\n";
+unless ( -e $app_conf_file){
+    print "ERROR: Config file <$app_conf_file> dose not exist!\n";
+    exit $exit_code;
+}
 
 $cmd = shift @ARGV;
 unless ( defined($cmd) ){
@@ -207,8 +211,11 @@ mha_control - CLI interact with MHA
 =head1 SYNOPSIS
 
 mha_control @app show
+
 mha_control @app set_offline master
+
 mha_control @app set_offline $node
+
 mha_control @app set_online $node
 
 See online reference (http://code.google.com/p/mysql-master-ha/wiki/masterha_check_repl) for details.
